@@ -1,0 +1,60 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Facture index{% endblock %}
+
+{% block back_content %}
+    <h1>Facture index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Reference</th>
+                <th>Montant hors taxes</th>
+                <th>Tva %</th>
+                <th>Timber</th>
+                <th>Montant total</th>
+                <th>Fournisseurs</th>
+                <th>facture</th>
+                <th>Taux</th>
+                <th>Details</th>
+                 <th>Modifier</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for facture in factures %}
+            <tr>
+                <td>{{ facture.id }}</td>
+                <td>{{ facture.reference }}</td>
+                <td>{{ facture.Montantht }}</td>
+                <td>{{ facture.Tva }}</td>
+                <td>{{ facture.Timber }}</td>
+                <td>{{ facture.Montantht*(1+(facture.Tva/100))+facture.Timber }}</td>
+                <td>{{ facture.Fournisseurs.Matricule }}</td>
+                
+                <td><img src="{{ asset('uploads/') ~facture.image}}" width="100px" height="50px" alt="" class="img-fluid"></td>
+                <td>
+                    {% if facture.Montantht >999.99 %}
+                        {{ facture.Montantht*(1-(facture.RS/100)) }} 
+                    {% endif %}
+                    {% if facture.Montantht <=999.99 %}
+                         0 
+                    {% endif %}</td>
+                <td>
+                    <a class="btn btn-danger" href="{{ path('facture_show', {'id': facture.id}) }}">show</a>
+                </td>
+                 <td>
+                    <a class="btn btn-success" href="{{ path('facture_edit', {'id': facture.id}) }}"">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="6">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a class="btn btn-success" href="{{ path('facture_new') }}">Create new</a>
+
+{% endblock %}

@@ -1,0 +1,43 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Payement index{% endblock %}
+
+{% block back_content %}
+    <h1>Payement index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Fournisseurs</th>
+                <th>Debit</th>
+                <th>Payee</th>
+                <th>Credit</th>
+            </tr>
+        </thead>
+      <tbody>
+        {% for paye in payements %}
+         {% set y=0 %}
+         {% set x=0 %}
+
+        {% for payement in payements %}
+            <tr>
+                 {% if paye.Reference_Facture.Fournisseurs.Matricule == payement.Reference_Facture.Fournisseurs.Matricule %}
+                        {% set y=y+payement.Reference_Facture.Montantht*(1+(payement.Reference_Facture.Tva/100))+payement.Reference_Facture.Timber %}
+                        {% set x=x+payement.Montantpayee %}
+                    {% endif %}
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="6">no records found</td>
+            </tr>
+        {% endfor %}
+        <tr> 
+           <td>{{ paye.Reference_Facture.Fournisseurs.Matricule }}</td>
+           <td> {{  y  }} </td>
+           <td> {{  x  }} </td>
+           <td> {{  y-x  }} </td>
+        </tr>   
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

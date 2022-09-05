@@ -1,0 +1,71 @@
+<style>
+    body{
+        font:normal 12px/20PX "Liberation sans", Arial, Helvetica, sans-serif;
+        color:#585858;
+    }
+    img{
+        width:300px;
+        margin:10px;
+        border: solid 5px #E8E8E8;
+
+    }
+</style>
+
+
+<div></div>
+<img src='data:image;base64,<?= {{ img64 }};?>' />
+<div style="display: flex;align-items: center;justify-content: center;margin-top: 150px; padding: 50px;">
+    <h1 align ="center">Historiques des payements</h1>
+ 
+
+    <table class="table  table-striped" border="1" width = 50%>
+        <thead>
+            <tr>
+                <th width=50%>Type_de_payement</th>
+                <th width=50%>Nature_de_payement</th>
+                <th width=50%>Nombre_de_tranche</th>
+                <th width=50%>Montant</th>
+                <th width=50%>Fournisseurs</th>
+                <th width=50%>Montant paye</th>
+                <th width=50%>Credit    </th>
+                <th width=50%>Date_de_payement</th>
+                 <th width=50%>Reference facture</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for payement in payements %}
+            <tr>
+                 <td>
+                    {% if payement.TypeDePayement is same as ('par cheque') %}
+                        par cheque 
+                    {% endif %}
+                    {% if payement.TypeDePayement is same as('especes') %}
+                         especes 
+                    {% endif %}</td>
+                <td>
+                    {% if payement.NatureDePayement is same as ('par tranche') %}
+                        par tranche 
+                    {% endif %}
+                    {% if payement.NatureDePayement is same as('comptant') %}
+                         comptant 
+                    {% endif %}</td>
+                <td>{{ payement.NombreDeTranche }}</td>
+                <td>{{ payement.Reference_Facture.Montantht*(1+(payement.Reference_Facture.Tva/100))+payement.Reference_Facture.Timber }}</td>
+                <td>{{ payement.Reference_Facture.Fournisseurs.Matricule }}</td>
+                <td>{{ payement.Montantpayee }}</td>
+                <td>{{ (payement.Reference_Facture.Montantht*(1+(payement.Reference_Facture.Tva/100))+payement.Reference_Facture.Timber)-payement.Montantpayee }}</td>
+                <td>{{ payement.DateDePayement ? payement.DateDePayement|date('Y-m-d') : '' }}</td>
+                 <td>  {% if payement.Code != payement.Reference_Facture.reference  %}
+                        {{ payement.Reference_Facture.reference }}
+                    {% endif %}
+                     {% if payement.Code == payement.Reference_Facture.reference  %}
+                         {{ payement.Reference_Facture.reference }}
+                    {% endif %}</td></td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="6">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>

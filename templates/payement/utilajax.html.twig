@@ -1,0 +1,45 @@
+
+        {% for payement in payements %}
+            <tr>
+                 <td>
+                    {% if payement.TypeDePayement is same as ('par cheque') %}
+                        par cheque 
+                    {% endif %}
+                    {% if payement.TypeDePayement is same as('especes') %}
+                         especes 
+                    {% endif %}</td>
+                <td>
+                    {% if payement.NatureDePayement is same as ('par tranche') %}
+                        par tranche 
+                    {% endif %}
+                    {% if payement.NatureDePayement is same as('comptant') %}
+                         comptant 
+                    {% endif %}</td>
+                <td>{{ payement.NombreDeTranche }}</td>
+                <td>{{ payement.Reference_Facture.Montantht*(1+(payement.Reference_Facture.Tva/100))+payement.Reference_Facture.Timber }}</td>
+                <td>{{ payement.Reference_Facture.Fournisseurs.Matricule }}</td>
+                <td>{{ payement.Montantpayee }}</td>
+                <td>{{ (payement.Reference_Facture.Montantht*(1+(payement.Reference_Facture.Tva/100))+payement.Reference_Facture.Timber)-payement.Montantpayee }}</td>
+                <td>{{ payement.DateDePayement ? payement.DateDePayement|date('Y-m-d') : '' }}</td>
+                 <td>  {% if payement.Code != payement.Reference_Facture.reference  %}
+                        {{ payement.Reference_Facture.reference }}
+                    {% endif %}
+                     {% if payement.Code == payement.Reference_Facture.reference  %}
+                         {{ payement.Reference_Facture.reference }}
+                    {% endif %}</td></td>
+                <td>
+                    <a class="btn btn-danger" href="{{ path('payement_show', {'id': payement.id}) }}">show</a></td>
+                    <td>{% if payement.NatureDePayement is same as ('par tranche') %}
+                       <a class="btn btn-success" href="{{ path('calendar_new', {'id': payement.id}) }}">cccc</a>
+                        
+                    {% endif %}</td>
+                    
+                    <td><a class="btn btn-success" href="{{ path('payement_edit', {'id': payement.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="6">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>

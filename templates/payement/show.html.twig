@@ -1,0 +1,38 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Payement{% endblock %}
+
+{% block back_content %}
+    <h1>Payement</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ payement.id }}</td>
+            </tr>
+            <tr>
+                <th>Type_de_payement</th>
+                <td>{{ payement.TypeDePayement }}</td>
+            </tr>
+            <tr>
+                <th>Nature_de_payement</th>
+                <td>{{ payement.NatureDePayement }}</td>
+            </tr>
+            <tr>
+                <th>Nombre_de_tranche</th>
+                <td>{{ payement.NombreDeTranche }}</td>
+            </tr>
+            <tr>
+                <th>Date_de_payement</th>
+                <td>{{ payement.DateDePayement ? payement.DateDePayement|date('Y-m-d') : '' }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('payement_index') }}">back to list</a>
+
+    <a href="{{ path('payement_edit', {'id': payement.id}) }}">edit</a>
+
+    {{ include('payement/_delete_form.html.twig') }}
+{% endblock %}
